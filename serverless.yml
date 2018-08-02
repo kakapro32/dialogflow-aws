@@ -1,0 +1,19 @@
+service: crmbot
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  deploymentBucket:
+    name: dev-temp-ohio
+  timeout: 15 # optional, in seconds, default is 6
+  stage: ${opt:stage, 'dev-test'}
+  region: ${opt:region, 'us-east-2'}
+  environment: ${file(env.yml)}
+  
+functions:
+  
+plugins:
+  - serverless-offline
+package:
+  exclude:
+    - test/**
