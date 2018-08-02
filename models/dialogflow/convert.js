@@ -55,7 +55,7 @@ function jsonValueToProto(value) {
     valueProto.kind = kind;
     valueProto[kind] = value;
   } else {
-    console.warn('Unsupported value type ', typeof value);
+    console.debug('Unsupported value type ', typeof value);
   }
   return valueProto;
 }
