@@ -6,5 +6,5 @@ const importData = async () => {
 };
 
 module.exports = {
-  importData,
+  importData
 };
