@@ -1,5 +1,4 @@
 
-
 const elasticsearch = require('elasticsearch');
 const { constant } = require('../../helper');
 
@@ -89,9 +88,6 @@ const bodyConfig = {
               },
             },
             analyzer: 'standard',
-          },
-          r: {
-            type: 'nested',
           },
 
         },

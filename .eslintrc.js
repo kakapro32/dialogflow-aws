@@ -14,6 +14,7 @@ module.exports = {
       2,
       "always"
     ],
-    "no-use-before-define": ["error", { "functions": false, "classes": false }]
+    "no-use-before-define": ["error", { "functions": false, "classes": false }],
+    "arrow-body-style": ["error", "as-needed"]
   },
 };

@@ -9,11 +9,32 @@ provider:
   stage: ${opt:stage, 'dev-test'}
   region: ${opt:region, 'us-east-2'}
   environment: ${file(env.yml)}
-  
-functions:
-  
+
 plugins:
   - serverless-offline
 package:
   exclude:
     - test/**
+
+functions:
+  search:
+    handler: handler.search
+    events:
+      - http:
+          path: api/search
+          method: get
+          cors: true
+  export:
+    handler: handler.export
+    events:
+      - http:
+          path: api/export
+          method: get
+          cors: true
+  import:
+    handler: handler.import
+    events:
+      - http:
+          path: api/import
+          method: post
+          cors: true
