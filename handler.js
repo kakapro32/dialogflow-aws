@@ -20,12 +20,12 @@ module.exports.import = async (event, context, callback) => {
       null,
       success({
         success: true,
-        message: `Successfully indexed ${data.length - errorCount} out of ${data.length} items`,
+        message: `Successfully indexed ${data.length - errorCount} out of ${data.length} items`
       }),
     );
     callback(null, success({ result: true }));
   } catch (err) {
-    console.log(err)
+    console.log(err);
     callback(null, failure({ error: true }));
   }
 };
@@ -36,7 +36,7 @@ module.exports.search = async (event, context, callback) => {
     const {
       page_id: pageId,
       q,
-      type,
+      type
     } = event.queryStringParameters;
     const index = `${pageId}_${type}`;
     const data = await ElasticSearch.getAnswers(index, type, q);

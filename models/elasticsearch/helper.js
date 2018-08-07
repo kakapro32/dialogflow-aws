@@ -1,5 +1,5 @@
 const {
-  map, filter, isEmpty, forEach, unionBy,
+  map, filter, isEmpty, forEach, unionBy
 } = require('lodash');
 const bodybuilder = require('bodybuilder');
 
@@ -43,17 +43,17 @@ const getBody = (query, language) => {
             type: 'best_fields',
             cutoff_frequency: 0.0007,
             operator: 'and',
-            fields: ['question^2', 'answer'],
-          },
+            fields: ['question^2', 'answer']
+          }
         },
         should: {
           multi_match: {
             query,
             type: 'phrase',
-            fields: ['question^2', 'answer'],
-          },
-        },
-      },
+            fields: ['question^2', 'answer']
+          }
+        }
+      }
     },
     suggest: {
       'q-suggest': {
@@ -61,20 +61,20 @@ const getBody = (query, language) => {
         completion: {
           field: 'question.completion',
           contexts: {
-            language: ['en'],
-          },
-        },
+            language: ['en']
+          }
+        }
       },
       'a-suggest': {
         prefix: query,
         completion: {
           field: 'answer.completion',
           contexts: {
-            language: ['en'],
-          },
-        },
-      },
-    },
+            language: ['en']
+          }
+        }
+      }
+    }
   };
   return body;
 };
@@ -82,8 +82,8 @@ const getBody = (query, language) => {
 const buildParams = (params, question) => {
   const r = [
     {
-      question,
-    },
+      question
+    }
   ];
   forEach(params, (value, key) => {
     if (typeof value === 'object') {
@@ -111,8 +111,8 @@ const generateBulkBody = (index, type, data) => {
       index: {
         _id: item.id,
         _index: index,
-        _type: type,
-      },
+        _type: type
+      }
     });
     bulkBody.push(item);
   });
@@ -135,7 +135,7 @@ function buildQuery(displayName, parameters, queryText) {
     bodyBuilder.orQuery(
       'nested',
       {
-        path: 'r',
+        path: 'r'
       },
       (q) => {
         let r;
@@ -155,7 +155,7 @@ function buildQuery(displayName, parameters, queryText) {
   bodyBuilder.orQuery('match', 'question', {
     query: queryText,
     operator: 'and',
-    cutoff_frequency: 0.001,
+    cutoff_frequency: 0.001
   });
   const query = bodyBuilder.size(1).build();
   return query;
@@ -170,10 +170,10 @@ function getExportOptions(index, type, language) {
         size: 10000,
         query: {
           match: {
-            language,
-          },
-        },
-      },
+            language
+          }
+        }
+      }
     }
     : { index, type, body: { size: 10000 } };
 }
@@ -186,5 +186,5 @@ module.exports = {
   countError,
   generateBulkBody,
   processSuggestResult,
-  buildParams,
+  buildParams
 };

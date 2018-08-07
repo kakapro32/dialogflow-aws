@@ -29,18 +29,17 @@ function jsonToStructProto(json) {
 const JSON_SIMPLE_TYPE_TO_PROTO_KIND_MAP = {
   [typeof 0]: 'numberValue',
   [typeof '']: 'stringValue',
-  [typeof false]: 'boolValue',
+  [typeof false]: 'boolValue'
 };
 
 const JSON_SIMPLE_VALUE_KINDS = new Set([
   'numberValue',
   'stringValue',
-  'boolValue',
+  'boolValue'
 ]);
 
 function jsonValueToProto(value) {
   const valueProto = {};
-
   if (value === null) {
     valueProto.kind = 'nullValue';
     valueProto.nullValue = 'NULL_VALUE';
@@ -97,5 +96,5 @@ function valueProtoToJson(proto) {
 
 module.exports = {
   jsonToStructProto,
-  structProtoToJson,
+  structProtoToJson
 };

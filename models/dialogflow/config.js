@@ -8,5 +8,5 @@ module.exports = {
   intentsClient,
   sessionClient,
   entityTypesClient,
-  agentsClient,
+  agentsClient
 };

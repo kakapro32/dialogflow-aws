@@ -6,7 +6,7 @@ const {
   generateBulkBody,
   countError,
   buildQuery,
-  getSourceData,
+  getSourceData
 } = require('./helper');
 
 const find = (index, type, body) => new Promise((resolve, reject) => {
@@ -63,5 +63,5 @@ module.exports = {
   find,
   findAll,
   getBody,
-  client,
+  client
 };

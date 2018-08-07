@@ -12,8 +12,8 @@ const parseEvent = event => new Promise((resolve, reject) => {
   const eventLocal = event;
   const busboy = new Busboy({
     headers: {
-      'content-type': getContentType(eventLocal),
-    },
+      'content-type': getContentType(eventLocal)
+    }
   });
 
   const result = {};
@@ -44,5 +44,5 @@ const parseEvent = event => new Promise((resolve, reject) => {
 });
 
 module.exports = {
-  parseEvent,
+  parseEvent
 };
