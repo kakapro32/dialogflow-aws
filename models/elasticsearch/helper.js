@@ -79,12 +79,8 @@ const getBody = (query, language) => {
   return body;
 };
 
-const buildParams = (params, question) => {
-  const r = [
-    {
-      question
-    }
-  ];
+const buildParams = (params) => {
+  const r = [];
   forEach(params, (value, key) => {
     if (typeof value === 'object') {
       forEach(value, (v, k) => {
@@ -114,6 +110,9 @@ const generateBulkBody = (index, type, data) => {
         _type: type
       }
     });
+    if (item.metadata) {
+      item.metadata = JSON.parse(item.metadata);
+    }
     bulkBody.push(item);
   });
   return bulkBody;
@@ -177,6 +176,7 @@ function getExportOptions(index, type, language) {
     }
     : { index, type, body: { size: 10000 } };
 }
+
 
 module.exports = {
   getSourceData,

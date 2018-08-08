@@ -88,8 +88,10 @@ const bodyConfig = {
               }
             },
             analyzer: 'standard'
+          },
+          metadata: {
+            type: 'nested'
           }
-
         }
       }
     }
