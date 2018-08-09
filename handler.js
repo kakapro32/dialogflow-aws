@@ -45,3 +45,19 @@ module.exports.search = async (event, context, callback) => {
     callback(null, failure({ error: true }));
   }
 };
+
+module.exports.searchFilter = async (event, context, callback) => {
+  try {
+    const {
+      page_id: pageId,
+      q,
+      type
+    } = event.queryStringParameters;
+    const index = `${pageId}_${type}`;
+    const data = await ElasticSearch.getAnswers(index, type, q);
+    callback(null, success({ intent: 'default', data }));
+  } catch (err) {
+    callback(null, failure({ error: true }));
+  }
+};
+

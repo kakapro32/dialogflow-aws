@@ -2,7 +2,7 @@ const {
   map, filter, isEmpty, forEach, unionBy
 } = require('lodash');
 const bodybuilder = require('bodybuilder');
-
+const esb = require('elastic-builder');
 const processSuggestResult = (result, isBot) => {
   let aSuggest = [];
   let qSuggest = [];
@@ -128,36 +128,24 @@ const countError = (response) => {
   return errorCount;
 };
 
-function buildQuery(displayName, parameters, queryText) {
-  const bodyBuilder = bodybuilder().query('match', 'intent', displayName);
-  if (!isEmpty(parameters)) {
-    bodyBuilder.orQuery(
-      'nested',
-      {
-        path: 'r'
-      },
-      (q) => {
-        let r;
-        forEach(parameters, (value, key) => {
-          if (typeof value === 'object') {
-            forEach(value, (v, k) => {
-              r = q.orQuery('match', `r.${key}.${k}`, v);
-            });
-          } else {
-            r = q.orQuery('match', `r.${key}`, value);
-          }
-        });
-        return r || q;
-      },
-    );
-  }
-  bodyBuilder.orQuery('match', 'question', {
-    query: queryText,
-    operator: 'and',
-    cutoff_frequency: 0.001
-  });
-  const query = bodyBuilder.size(1).build();
-  return query;
+function buildQuery(params) {
+  const esb = require('elastic-builder');
+  const buildShould = esb => {
+    const arrShould = [];
+    forEach(params, (value, key) => {
+      arrShould.push(esb.termsQuery('metadata.' + key, value));
+    });
+    return arrShould;
+  };
+  const requestBody = esb.requestBodySearch()
+    .query(
+      esb.nestedQuery()
+        .path('metadata')
+        .query(
+          esb.boolQuery.should(buildShould(esb))
+        )
+    ).size(100);
+  return requestBody.toJSON;
 }
 
 function getExportOptions(index, type, language) {
@@ -176,7 +164,6 @@ function getExportOptions(index, type, language) {
     }
     : { index, type, body: { size: 10000 } };
 }
-
 
 module.exports = {
   getSourceData,

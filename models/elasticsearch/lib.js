@@ -53,8 +53,19 @@ const getAnswers = async (index, type, queryResult) => {
   }
 };
 
+const filter = async (index, type, params) => {
+  try {
+    const result = await client.search({ index, type, body: buildQuery(params) });
+    return getSourceData(result.hits.hits);
+  } catch (err) {
+    console.log(err);
+    return [];
+  }
+};
+
 module.exports = {
   getAnswers,
+  filter,
   buildQuery,
   initIndex,
   countError,
